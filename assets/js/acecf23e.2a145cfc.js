@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkspark_study=globalThis.webpackChunkspark_study||[]).push([[903],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/spark-study/blog","blogTitle":"Blog","authorsListPath":"/spark-study/blog/authors"}')}}]);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>My Site Blog</title>
+        <link>https://kwonyl14.github.io/spark-study/blog</link>
+        <description>My Site Blog</description>
+        <lastBuildDate>Thu, 19 Feb 2026 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[1주차: Spark DataFrame OOM 테스트 및 환경 세팅]]></title>
+            <link>https://kwonyl14.github.io/spark-study/blog/first-test</link>
+            <guid>https://kwonyl14.github.io/spark-study/blog/first-test</guid>
+            <pubDate>Thu, 19 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[첫 번째 스터디 테스트 글입니다. 이번 주차에서는 Data Skew로 인한 메모리 초과 현상을 재현합니다.]]></description>
+            <content:encoded><![CDATA[<p>첫 번째 스터디 테스트 글입니다. 이번 주차에서는 Data Skew로 인한 메모리 초과 현상을 재현합니다.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="oom-재현을-위한-scala-테스트-코드">OOM 재현을 위한 Scala 테스트 코드<a href="https://kwonyl14.github.io/spark-study/blog/first-test#oom-%EC%9E%AC%ED%98%84%EC%9D%84-%EC%9C%84%ED%95%9C-scala-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C" class="hash-link" aria-label="Direct link to OOM 재현을 위한 Scala 테스트 코드" title="Direct link to OOM 재현을 위한 Scala 테스트 코드" translate="no">​</a></h3>
+<div class="language-scala codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-scala codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">import org.apache.spark.sql.SparkSession</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">import org.apache.spark.sql.functions._</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">val spark = SparkSession.builder()</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  .appName("SkewTest")</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  .config("spark.memory.fraction", "0.2") // 메모리 압박을 위해 낮게 설정</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  .getOrCreate()</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">import spark.implicits._</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 고의적인 Data Skew 생성</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">val df1 = Seq.fill(100000)("A").toDF("key") </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">val df2 = Seq("A", "B", "C").toDF("key")</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">// 실행 시 Shuffle 병목 발생 유도</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">val joinedDF = df1.join(df2, "key")</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">joinedDF.show()</span><br></span></code></pre></div></div>]]></content:encoded>
+            <category>spark</category>
+            <category>scala</category>
+            <category>troubleshooting</category>
+        </item>
+    </channel>
+</rss>
