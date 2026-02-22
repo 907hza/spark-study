@@ -15,7 +15,7 @@
             <pubDate>Sun, 22 Feb 2026 00:00:00 GMT</pubDate>
             <description><![CDATA[Spark 성능 최적화의 핵심인 Caching(StorageLevel)과 Checkpointing의 내부 동작 원리를 깊이 있게 비교하고, 실무 적용 기준을 정리한다.]]></description>
             <content:encoded><![CDATA[<p>스파크(Spark) 애플리케이션을 개발하다 보면 Join이나 정렬(Sort) 같은 무거운(Expensive) 연산 결과를 여러 번 재사용해야 하는 상황이 반드시 발생한다. 이때 아무 처리도 하지 않으면 액션(Action)이 호출될 때마다 데이터를 처음부터 다시 읽고 계산하는 엄청난 비효율이 발생한다.</p>
-<p>이 문제를 해결하는 두 가지 핵심 무기가 바로 **캐싱(Caching)**과 **체크포인팅(Checkpointing)**이다. 두 기법은 비슷해 보이지만 내부 동작 원리와 목적이 완전히 다르다. 코드를 통해 이 둘의 차이를 확인한다.</p>
+<p>이 문제를 해결하는 두 가지 핵심 무기가 바로 <strong>캐싱(Caching)</strong> 과 **체크포인팅(Checkpointing)**이다. 두 기법은 비슷해 보이지만 내부 동작 원리와 목적이 완전히 다르다. 코드를 통해 이 둘의 차이를 확인한다.</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-caching-빠른-재사용을-위한-메모리-최적화">1. Caching: 빠른 재사용을 위한 메모리 최적화<a href="https://kwonyl14.github.io/spark-study/blog/week-1-caching-vs-checkpointing#1-caching-%EB%B9%A0%EB%A5%B8-%EC%9E%AC%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%B5%9C%EC%A0%81%ED%99%94" class="hash-link" aria-label="Direct link to 1. Caching: 빠른 재사용을 위한 메모리 최적화" title="Direct link to 1. Caching: 빠른 재사용을 위한 메모리 최적화" translate="no">​</a></h2>
 <p>캐싱은 계산이 끝난 DataFrame이나 RDD를 메모리나 디스크에 임시로 저장해 두는 기법이다. 가장 큰 특징은 <strong>데이터의 계산 족보(Lineage)를 그대로 유지</strong>한다는 점이다. 즉, 캐시된 데이터가 날아가면 스파크는 언제든 처음부터 다시 계산해서 복구할 수 있다.</p>
