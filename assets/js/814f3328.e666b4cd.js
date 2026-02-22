@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkspark_study=globalThis.webpackChunkspark_study||[]).push([[472],{5513(s){s.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"1\uc8fc\ucc28: Spark DataFrame OOM \ud14c\uc2a4\ud2b8 \ubc0f \ud658\uacbd \uc138\ud305","permalink":"/spark-study/blog/first-test","unlisted":false,"date":"2026-02-19T00:00:00.000Z"}]}')}}]);
