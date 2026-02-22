@@ -1,7 +1,7 @@
 ---
 slug: first-test
 title: "1주차: Spark DataFrame OOM 테스트 및 환경 세팅"
-authors: [내아이디] # 본인 이름이나 닉네임
+authors: kwonyl14 # 본인 이름이나 닉네임
 tags: [spark, scala, troubleshooting]
 ---
 
