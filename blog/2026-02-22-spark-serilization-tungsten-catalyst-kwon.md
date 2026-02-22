@@ -128,7 +128,7 @@ filterBoth.explain(true)
 val notFromLGA = spark.read.load("src/main/resources/data/flights_parquet")
   .where($"origin" =!= "LGA")
 ```
-이 코드를 실행하면, 스파크는 메모리에 데이터를 다 올려놓고 필터링을 하는 것이 아니라, **디스크(Parquet)에서 데이터를 읽어 들일 때부터 이미 "LGA"가 아닌 데이터만 쏙쏙 골라서 읽어온다.** 이를 필터 푸시다운(Filter Pushdown)이라고 하며, 불필요한 I/O를 원천 차단하여 성능을 기하급수적으로 높여준다.
+이 코드를 실행하면, 스파크는 메모리에 데이터를 다 올려놓고 필터링을 하는 것이 아니라, **디스크(Parquet)에서 데이터를 읽어 들일 때부터 이미 "LGA"가 아닌 데이터만 골라서 읽어온다.** 이를 필터 푸시다운(Filter Pushdown)이라고 하며, 불필요한 I/O를 원천 차단하여 성능을 기하급수적으로 높여준다.
 
 ---
 
